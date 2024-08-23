@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor de Calificaciones</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 50%;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .warning {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Conversor de Calificaciones</h2>
+
+    <label for="calif1">Calificación del Estudiante 1:</label>
+    <input type="number" id="calif1" min="0" max="100"><br><br>
+
+    <label for="calif2">Calificación del Estudiante 2:</label>
+    <input type="number" id="calif2" min="0" max="100"><br><br>
+
+    <label for="calif3">Calificación del Estudiante 3:</label>
+    <input type="number" id="calif3" min="0" max="100"><br><br>
+
+    <button onclick="convertirCalificaciones()">Convertir Calificaciones</button>
+
+    <p id="mensaje" class="warning"></p>
+
+    <table>
+        <tr>
+            <th>Estudiante</th>
+            <th>Calificación Numérica</th>
+            <th>Grado en Letra</th>
+        </tr>
+        <tr>
+            <td>Estudiante 1</td>
+            <td id="resultado1"></td>
+            <td id="letra1"></td>
+        </tr>
+        <tr>
+            <td>Estudiante 2</td>
+            <td id="resultado2"></td>
+            <td id="letra2"></td>
+        </tr>
+        <tr>
+            <td>Estudiante 3</td>
+            <td id="resultado3"></td>
+            <td id="letra3"></td>
+        </tr>
+    </table>
+
+    <script>
+        function calcularGradoLetra(calificacion) {
+            if (calificacion >= 90) {
+                return 'A';
+            } else if (calificacion >= 80) {
+                return 'B';
+            } else if (calificacion >= 70) {
+                return 'C';
+            } else if (calificacion >= 69) {
+                return 'D';
+            } else {
+                return 'F';
+            }
+        }
+
+        function convertirCalificaciones() {
+            // Obtener las calificaciones ingresadas
+            const calificacion1 = parseInt(document.getElementById('calif1').value);
+            const calificacion2 = parseInt(document.getElementById('calif2').value);
+            const calificacion3 = parseInt(document.getElementById('calif3').value);
+
+            // Limpiar mensaje de advertencia previo
+            document.getElementById('mensaje').textContent = '';
+
+            // Verificar si las calificaciones son válidas
+            if (isNaN(calificacion1) || isNaN(calificacion2) || isNaN(calificacion3)) {
+                alert("Por favor, ingresa una calificación válida para todos los estudiantes.");
+                return;
+            }
+
+            // Verificar si alguna calificación excede 100
+            if (calificacion1 > 100 || calificacion2 > 100 || calificacion3 > 100) {
+                document.getElementById('mensaje').textContent = "Error: Las calificaciones no pueden ser mayores a 100.";
+                return;
+            }
+
+            // Convertir las calificaciones a letras
+            document.getElementById('resultado1').textContent = calificacion1;
+            document.getElementById('letra1').textContent = calcularGradoLetra(calificacion1);
+
+            document.getElementById('resultado2').textContent = calificacion2;
+            document.getElementById('letra2').textContent = calcularGradoLetra(calificacion2);
+
+            document.getElementById('resultado3').textContent = calificacion3;
+            document.getElementById('letra3').textContent = calcularGradoLetra(calificacion3);
+        }
+    </script>
+
+</body>
+</html>
