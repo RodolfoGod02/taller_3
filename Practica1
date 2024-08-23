@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Estacionamiento</title>
+    <style>
+        #ticket {
+            border: 1px solid #000;
+            padding: 10px;
+            margin-top: 20px;
+            width: 300px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h2>Calculadora de Estacionamiento</h2>
+    
+    <form id="parkingForm">
+        <label for="minutes">Minutos estacionados:</label>
+        <input type="number" id="minutes" name="minutes" required><br><br>
+
+        <label for="day">¿Es domingo?</label>
+        <select id="day" name="day">
+            <option value="no">No</option>
+            <option value="si">Sí</option>
+        </select><br><br>
+
+        <button type="button" onclick="calcularCosto()">Calcular Costo</button>
+    </form>
+
+    <h3 id="resultado"></h3>
+
+    <div id="ticket">
+        <h4>Ticket de Estacionamiento</h4>
+        <p><strong>Minutos estacionados:</strong> <span id="ticketMinutos"></span></p>
+        <p><strong>Es domingo:</strong> <span id="ticketDia"></span></p>
+        <p><strong>Total a pagar:</strong> $<span id="ticketTotal"></span></p>
+    </div>
+
+    <script>
+        function calcularCosto() {
+            let minutos = parseInt(document.getElementById('minutes').value);
+            let esDomingo = document.getElementById('day').value === 'si';
+            let costo = 0;
+
+            if (minutos <= 10) {
+                costo = 0;
+            } else if (minutos <= 25) {
+                costo = 3;
+            } else if (minutos <= 60) {
+                costo = 10;
+            } else {
+                // Primeras 60 minutos cuestan $10
+                costo = 10;
+                // Horas adicionales
+                let horasAdicionales = Math.ceil((minutos - 60) / 60);
+                costo += horasAdicionales * 5;
+            }
+
+            // Descuento si es domingo
+            if (esDomingo) {
+                costo *= 0.9;
+            }
+
+            // Mostrar resultado
+            document.getElementById('resultado').innerText = "Total a pagar: $" + costo.toFixed(2);
+
+            // Mostrar ticket
+            document.getElementById('ticketMinutos').innerText = minutos;
+            document.getElementById('ticketDia').innerText = esDomingo ? "Sí" : "No";
+            document.getElementById('ticketTotal').innerText = costo.toFixed(2);
+
+            document.getElementById('ticket').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
