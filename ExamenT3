@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edades de Estudiantes</title>
+</head>
+<body>
+    <button onclick="cambiarcolor('blue')">azul</button>
+    <button onclick="cambiarcolor('white')">Blanco</button>
+    <script>
+        function cambiarcolor(color){
+            document.body.style.background =color;
+        }
+    </script>
+<h2>Edades de Estudiantes Universitarios</h2>
+<label for="cantidadEstudiantes">Ingrese la cantidad de estudiantes:</label>
+<input type="number" id="cantidadEstudiantes" min="5" placeholder="Número de estudiantes">
+<button onclick="solicitarEdades()">Ingresar Edades</button>
+
+<div id="edadesInput"></div>
+<button id="calcular" style="display:none;" onclick="calcularResultados()">Calcular Resultados</button>
+
+<div id="resultado" style="display:none;">
+    <h3>Resultados</h3>
+    <p>Orden de edades de mayor a menor:</p>
+    <ul id="edadesOrdenadas"></ul>
+    <p id="totalMayores"></p>
+    <p id="totalMenores"></p>
+</div>
+
+<script>
+    function solicitarEdades() {
+        var cantidad = parseInt(document.getElementById("cantidadEstudiantes").value);
+        if (isNaN(cantidad) || cantidad < 5) {
+            alert("Por favor ingrese una cantidad válida de al menos 5 estudiantes.");
+            return;
+        }
+
+        var edadesInputDiv = document.getElementById("edadesInput");
+        edadesInputDiv.innerHTML = ''; // Limpiar cualquier entrada anterior
+
+        for (var i = 1; i <= cantidad; i++) {
+            edadesInputDiv.innerHTML += '<label for="edad' + i + '">Estudiante ' + i + ' edad:</label>';
+            edadesInputDiv.innerHTML += '<input type="number" id="edad' + i + '" placeholder="Edad ' + i + '"><br>';
+        }
+
+        document.getElementById("calcular").style.display = 'block'; // Mostrar el botón de calcular
+    }
+
+    function calcularResultados() {
+        var cantidad = parseInt(document.getElementById("cantidadEstudiantes").value);
+        var edades = [];
+        var mayores = 0;
+        var menores = 0;
+
+        for (var i = 1; i <= cantidad; i++) {
+            var edad = parseInt(document.getElementById("edad" + i).value);
+            if (!isNaN(edad)) {
+                edades.push(edad);
+                if (edad >= 18) {
+                    mayores++;
+                } else {
+                    menores++;
+                }
+            }
+        }
+
+        // Ordenar edades de mayor a menor
+        edades.sort(function(a, b) { return b - a; });
+
+        // Mostrar resultados
+        var edadesOrdenadasUl = document.getElementById("edadesOrdenadas");
+        edadesOrdenadasUl.innerHTML = '';
+        edades.forEach(function(edad) {
+            edadesOrdenadasUl.innerHTML += '<li>' + edad + '</li>';
+        });
+
+        document.getElementById("totalMayores").innerText = 'Total mayores de edad: ' + mayores;
+        document.getElementById("totalMenores").innerText = 'Total menores de edad: ' + menores;
+        document.getElementById("resultado").style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
